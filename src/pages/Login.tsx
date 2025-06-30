@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from '@/contexts/RouterContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,12 +9,15 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const Login = () => {
   const { user, login, isLoading } = useAuth();
+  const { navigate } = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  // If user is already logged in, redirect to dashboard
   if (user) {
-    return <Navigate to="/" replace />;
+    navigate('/');
+    return null;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,7 +25,9 @@ const Login = () => {
     setError('');
 
     const success = await login(email, password);
-    if (!success) {
+    if (success) {
+      navigate('/');
+    } else {
       setError('Invalid email or password');
     }
   };
