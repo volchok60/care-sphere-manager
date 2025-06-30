@@ -42,18 +42,20 @@ export const Router: React.FC = () => {
   }
 
   // Find matching route
-  const route = routes.find(r => r.path === currentPath) || { 
-    path: '*', 
-    component: NotFound 
-  };
+  const matchedRoute = routes.find(r => r.path === currentPath);
+  
+  // If no route is found, show NotFound
+  if (!matchedRoute) {
+    return <NotFound />;
+  }
 
   // Handle authentication requirements
-  if (route.requiresAuth && !user) {
+  if (matchedRoute.requiresAuth && !user) {
     return <Login />;
   }
 
   // Handle role requirements
-  if (route.requiredRole && user?.role !== route.requiredRole && user?.role !== 'admin') {
+  if (matchedRoute.requiredRole && user?.role !== matchedRoute.requiredRole && user?.role !== 'admin') {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-96">
@@ -66,10 +68,10 @@ export const Router: React.FC = () => {
     );
   }
 
-  const Component = route.component;
+  const Component = matchedRoute.component;
 
   // Wrap authenticated routes with MainLayout
-  if (route.requiresAuth && user) {
+  if (matchedRoute.requiresAuth && user) {
     return (
       <MainLayout>
         <Component />
