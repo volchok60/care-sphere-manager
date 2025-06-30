@@ -1,8 +1,8 @@
 
-import { NavLink } from 'react-router-dom';
 import { X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { NavLink } from '@/components/routing/NavLink';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
