@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 export type UserRole = 'admin' | 'doctor' | 'support';
 
@@ -14,6 +15,7 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
+  signup: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -71,13 +73,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return false;
   };
 
+  const signup = async (email: string, password: string, name: string): Promise<{ success: boolean; error?: string }> => {
+    setIsLoading(true);
+    
+    try {
+      // Check if user already exists
+      const existingUser = mockUsers.find(u => u.email === email);
+      if (existingUser) {
+        setIsLoading(false);
+        return { success: false, error: 'User with this email already exists' };
+      }
+
+      // In a real app, this would create the user via Supabase
+      // For now, we'll simulate a successful signup
+      const newUser: User = {
+        id: Date.now().toString(),
+        name,
+        email,
+        role: 'support', // Default role for new users
+      };
+
+      // Add to mock users (in real app, this would be handled by backend)
+      mockUsers.push(newUser);
+      
+      setIsLoading(false);
+      return { success: true };
+    } catch (error) {
+      setIsLoading(false);
+      return { success: false, error: 'Failed to create account' };
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('healthcare_crm_user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
