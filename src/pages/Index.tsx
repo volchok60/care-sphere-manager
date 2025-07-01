@@ -1,9 +1,21 @@
 
-import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "@/contexts/RouterContext";
+import { useEffect } from "react";
 
 const Index = () => {
   const { user, isLoading } = useAuth();
+  const { navigate } = useRouter();
+  
+  useEffect(() => {
+    if (!isLoading) {
+      if (user) {
+        navigate('/');
+      } else {
+        navigate('/login');
+      }
+    }
+  }, [user, isLoading, navigate]);
   
   if (isLoading) {
     return (
@@ -13,7 +25,7 @@ const Index = () => {
     );
   }
   
-  return user ? <Navigate to="/" replace /> : <Navigate to="/login" replace />;
+  return null;
 };
 
 export default Index;
