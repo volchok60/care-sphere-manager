@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from '@/contexts/RouterContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Login = () => {
   const { user, login, signup, isLoading } = useAuth();
-  const { navigate } = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,8 +20,7 @@ const Login = () => {
 
   // If user is already logged in, redirect to dashboard
   if (user) {
-    navigate('/');
-    return null;
+    return <Navigate to="/" replace />;
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -31,9 +29,7 @@ const Login = () => {
     setSuccess('');
 
     const success = await login(email, password);
-    if (success) {
-      navigate('/');
-    } else {
+    if (!success) {
       setError('Invalid email or password');
     }
   };

@@ -1,8 +1,8 @@
 
 import { X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { NavLink } from '@/components/routing/NavLink';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
@@ -12,6 +12,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
   const { user } = useAuth();
+  const location = useLocation();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -57,24 +58,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
 
         <nav className="mt-6 px-3">
           <ul className="space-y-1">
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <NavLink
-                  to={item.href}
-                  end={item.href === '/'}
-                  className={({ isActive }) => cn(
-                    "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                    isActive
-                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                  )}
-                  onClick={() => setOpen(false)}
-                >
-                  <item.icon className="h-5 w-5" />
-                  {item.name}
-                </NavLink>
-              </li>
-            ))}
+            {navigation.map((item) => {
+              const isActive = item.href === '/' 
+                ? location.pathname === '/' 
+                : location.pathname.startsWith(item.href);
+              
+              return (
+                <li key={item.name}>
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                      isActive
+                        ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    )}
+                    onClick={() => setOpen(false)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
