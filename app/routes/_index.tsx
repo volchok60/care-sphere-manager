@@ -1,6 +1,6 @@
 
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getSession } from "~/utils/session.server";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../src/components/ui/card";
@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     role: session.get("userRole"),
   };
   
-  return json({ user });
+  return { user };
 }
 
 export default function Dashboard() {
