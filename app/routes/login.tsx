@@ -2,12 +2,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
-import { useState } from "react";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Button } from "../../src/components/ui/button";
+import { Input } from "../../src/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../src/components/ui/card";
+import { Label } from "../../src/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../src/components/ui/tabs";
 import { commitSession, getSession } from "~/utils/session.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {

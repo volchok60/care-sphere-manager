@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getSession } from "~/utils/session.server";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../src/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
