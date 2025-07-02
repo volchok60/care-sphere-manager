@@ -1,14 +1,12 @@
-
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  LiveReload,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-import stylesheet from "./tailwind.css";
+import stylesheet from "./tailwind.css?url";
 import { Toaster } from "~/components/ui/toaster";
 
 export const links: LinksFunction = () => [
@@ -29,7 +27,6 @@ export default function App() {
         <Toaster />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
