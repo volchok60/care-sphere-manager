@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@remix-run/route-config": "^2.16.8",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^22.5.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
