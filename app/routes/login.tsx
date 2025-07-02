@@ -1,6 +1,6 @@
 
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { data, redirect } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { Button } from "../../src/components/ui/button";
 import { Input } from "../../src/components/ui/input";
@@ -16,7 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect("/");
   }
   
-  return json({});
+  return {};
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -26,7 +26,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const intent = formData.get("intent");
   
   if (typeof email !== "string" || typeof password !== "string") {
-    return json({ error: "Invalid form data" }, { status: 400 });
+    return data({ error: "Invalid form data" }, { status: 400 });
   }
   
   // Mock authentication logic
@@ -51,10 +51,10 @@ export async function action({ request }: ActionFunctionArgs) {
         },
       });
     }
-    return json({ error: "Invalid credentials" }, { status: 400 });
+    return data({ error: "Invalid credentials" }, { status: 400 });
   }
   
-  return json({ error: "Invalid intent" }, { status: 400 });
+  return data({ error: "Invalid intent" }, { status: 400 });
 }
 
 export default function Login() {
