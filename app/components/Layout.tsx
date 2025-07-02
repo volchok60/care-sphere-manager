@@ -2,15 +2,15 @@
 import { Form, useLoaderData, Outlet } from "@remix-run/react";
 import { useState } from "react";
 import { Bell, Search, Menu, X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { Button } from "../../src/components/ui/button";
+import { Input } from "../../src/components/ui/input";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
   DropdownMenuTrigger 
-} from "~/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "~/components/ui/avatar";
+} from "../../src/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../../src/components/ui/avatar";
 import { cn } from "~/lib/utils";
 
 interface LayoutProps {
