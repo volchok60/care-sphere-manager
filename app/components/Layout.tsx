@@ -47,10 +47,10 @@ export function Layout({ user, children }: LayoutProps) {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex h-16 items-center justify-between px-6 border-b border-slate-200">
+        <div className="flex h-16 items-center justify-between px-6 border-b border-slate-200 flex-shrink-0">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">H+</span>
@@ -68,7 +68,7 @@ export function Layout({ user, children }: LayoutProps) {
           </Button>
         </div>
 
-        <nav className="mt-6 px-3 flex-1 overflow-y-auto">
+        <nav className="flex-1 overflow-y-auto px-3 py-6">
           <ul className="space-y-1">
             {navigation.map((item) => (
               <li key={item.name}>
@@ -85,7 +85,7 @@ export function Layout({ user, children }: LayoutProps) {
           </ul>
         </nav>
 
-        <div className="absolute bottom-4 left-4 right-4">
+        <div className="flex-shrink-0 p-4">
           <div className="bg-slate-50 rounded-lg p-4">
             <p className="text-xs font-medium text-slate-900 truncate">{user?.name}</p>
             <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
