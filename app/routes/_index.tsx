@@ -1,4 +1,3 @@
-
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 import { useLoaderData } from "react-router";

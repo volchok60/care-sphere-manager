@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "react-router dev",
+    "build:dev": "vite build --mode development",
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "preview": "remix vite:preview",

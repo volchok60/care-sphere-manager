@@ -1,6 +1,6 @@
 
 import { Form, Outlet, Link } from "react-router";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Bell, Search, Menu, X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
 import { Button } from "../../src/components/ui/button";
 import { Input } from "../../src/components/ui/input";
@@ -20,6 +20,7 @@ interface LayoutProps {
     email: string;
     role: string;
   };
+  children?: ReactNode;
 }
 
 export function Layout({ user }: LayoutProps) {
