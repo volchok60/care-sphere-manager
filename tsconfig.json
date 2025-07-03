@@ -8,19 +8,10 @@
     "**/.client/**/*.tsx"
   ],
   "compilerOptions": {
-    "types": [
-      "@react-router/node",
-      "vite/client"
-    ],
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES6"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES6"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
@@ -29,14 +20,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "noEmit": true,
     "paths": {
-      "~/*": [
-        "./app/*"
-      ]
+      "~/*": ["./app/*"],
+      "@/*": ["./src/*"]
     },
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "noEmit": true
   }
 }
