@@ -23,7 +23,7 @@ interface LayoutProps {
   children?: ReactNode;
 }
 
-export function Layout({ user }: LayoutProps) {
+export function Layout({ user, children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigation = [
@@ -156,7 +156,7 @@ export function Layout({ user }: LayoutProps) {
         
         <main className="py-6">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Outlet />
+            {children ? children : <Outlet />}
           </div>
         </main>
       </div>
