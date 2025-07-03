@@ -1,9 +1,10 @@
+
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 import { useLoaderData } from "react-router";
 import { getSession } from "~/utils/session.server";
 import { Layout } from "~/components/Layout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../src/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
