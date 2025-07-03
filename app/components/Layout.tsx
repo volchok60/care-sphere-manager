@@ -2,15 +2,15 @@
 import { Form, Outlet, Link } from "react-router";
 import { ReactNode, useState } from "react";
 import { Bell, Search, Menu, X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
-import { Button } from "../../src/components/ui/button";
-import { Input } from "../../src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
   DropdownMenuTrigger 
-} from "../../src/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../../src/components/ui/avatar";
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "~/lib/utils";
 
 interface LayoutProps {
