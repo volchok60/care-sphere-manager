@@ -1,15 +1,4 @@
-import {
-  type RouteConfig,
-  route,
-  layout,
-  index,
-} from "@remix-run/route-config";
+import { type RouteConfig } from "@react-router/dev/routes";
+import { flatRoutes } from "@react-router/fs-routes";
 
-export default [
-  index("home/route.tsx"),
-  route("about", "about/route.tsx"),
-  layout("concerts/layout.tsx", [
-    route("trending", "concerts/trending.tsx"),
-    route(":city", "concerts/city.tsx"),
-  ]),
-] satisfies RouteConfig;
+export default flatRoutes() satisfies RouteConfig;

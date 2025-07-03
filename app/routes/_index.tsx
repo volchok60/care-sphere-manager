@@ -1,7 +1,7 @@
 
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "react-router";
+import { redirect } from "react-router";
+import { useLoaderData } from "react-router";
 import { getSession } from "~/utils/session.server";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../src/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";

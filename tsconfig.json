@@ -8,8 +8,15 @@
     "**/.client/**/*.tsx"
   ],
   "compilerOptions": {
-    "types": ["@remix-run/node", "vite/client"],
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
+    "types": [
+      "@react-router/node",
+      "vite/client"
+    ],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES6"
+    ],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -24,8 +31,12 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": [
+        "./app/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   }
 }

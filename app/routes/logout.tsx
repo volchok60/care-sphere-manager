@@ -1,6 +1,6 @@
 
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { ActionFunctionArgs } from "react-router";
+import { redirect } from "react-router";
 import { destroySession, getSession } from "~/utils/session.server";
 
 export async function action({ request }: ActionFunctionArgs) {
