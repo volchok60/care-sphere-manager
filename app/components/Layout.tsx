@@ -1,5 +1,5 @@
 
-import { Form, useLoaderData, Outlet } from "react-router";
+import { Form, Outlet, Link } from "react-router";
 import { useState } from "react";
 import { Bell, Search, Menu, X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
 import { Button } from "../../src/components/ui/button";
@@ -71,14 +71,14 @@ export function Layout({ user }: LayoutProps) {
           <ul className="space-y-1">
             {navigation.map((item) => (
               <li key={item.name}>
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
                   onClick={() => setSidebarOpen(false)}
                 >
                   <item.icon className="h-5 w-5" />
                   {item.name}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
