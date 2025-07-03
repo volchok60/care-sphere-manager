@@ -68,17 +68,17 @@ export function Layout({ user, children }: LayoutProps) {
           </Button>
         </div>
 
-        <nav className="mt-6 px-3">
+        <nav className="mt-6 px-3 flex-1 overflow-y-auto">
           <ul className="space-y-1">
             {navigation.map((item) => (
               <li key={item.name}>
                 <Link
                   to={item.href}
-                  className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                  className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors w-full"
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <item.icon className="h-5 w-5" />
-                  {item.name}
+                  <item.icon className="h-5 w-5 flex-shrink-0" />
+                  <span className="truncate">{item.name}</span>
                 </Link>
               </li>
             ))}
@@ -87,7 +87,7 @@ export function Layout({ user, children }: LayoutProps) {
 
         <div className="absolute bottom-4 left-4 right-4">
           <div className="bg-slate-50 rounded-lg p-4">
-            <p className="text-xs font-medium text-slate-900">{user?.name}</p>
+            <p className="text-xs font-medium text-slate-900 truncate">{user?.name}</p>
             <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
           </div>
         </div>
