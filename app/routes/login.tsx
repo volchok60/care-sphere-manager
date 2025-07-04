@@ -1,99 +1,71 @@
 
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { data, redirect } from "react-router";
-import { Form, useActionData, useNavigation } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { commitSession, getSession } from "~/utils/session.server";
+import { useAuth } from "~/contexts/AuthContext";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  
-  if (session.has("userId")) {
-    return redirect("/");
-  }
-  
-  return {};
-}
-
-export async function action({ request }: ActionFunctionArgs) {
-  const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const name = formData.get("name");
-  const intent = formData.get("intent");
-  
-  if (typeof email !== "string" || typeof password !== "string") {
-    return data({ error: "Invalid form data" }, { status: 400 });
-  }
-  
-  // Mock authentication logic
-  const mockUsers = [
-    { id: '1', name: 'Dr. Sarah Johnson', email: 'sarah@clinic.com', role: 'admin' },
-    { id: '2', name: 'Dr. Michael Chen', email: 'michael@clinic.com', role: 'doctor' },
-    { id: '3', name: 'Lisa Rodriguez', email: 'lisa@clinic.com', role: 'support' },
-  ];
-  
-  if (intent === "login") {
-    const user = mockUsers.find(u => u.email === email);
-    if (user && password === 'password') {
-      const session = await getSession(request.headers.get("Cookie"));
-      session.set("userId", user.id);
-      session.set("userName", user.name);
-      session.set("userEmail", user.email);
-      session.set("userRole", user.role);
-      
-      return redirect("/", {
-        headers: {
-          "Set-Cookie": await commitSession(session),
-        },
-      });
-    }
-    return data({ error: "Invalid credentials" }, { status: 400 });
-  }
-  
-  if (intent === "signup") {
-    if (typeof name !== "string" || name.length < 2) {
-      return data({ error: "Name is required" }, { status: 400 });
-    }
-    
-    // Check if user already exists
-    const existingUser = mockUsers.find(u => u.email === email);
-    if (existingUser) {
-      return data({ error: "User already exists" }, { status: 400 });
-    }
-    
-    // Create new user (in real app, this would save to database)
-    const newUser = {
-      id: String(mockUsers.length + 1),
-      name,
-      email,
-      role: 'user'
-    };
-    
-    const session = await getSession(request.headers.get("Cookie"));
-    session.set("userId", newUser.id);
-    session.set("userName", newUser.name);
-    session.set("userEmail", newUser.email);
-    session.set("userRole", newUser.role);
-    
-    return redirect("/", {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    });
-  }
-  
-  return data({ error: "Invalid intent" }, { status: 400 });
-}
 
 export default function Login() {
-  const actionData = useActionData<typeof action>();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
+  const { signIn, signUp, user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    
+    const { error } = await signIn(email, password);
+    
+    if (error) {
+      setError(error.message);
+    }
+    
+    setLoading(false);
+  };
+
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+    
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const name = formData.get("name") as string;
+    
+    const nameParts = name.trim().split(" ");
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+    
+    const { error } = await signUp(email, password, firstName, lastName);
+    
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess("Check your email for a confirmation link!");
+    }
+    
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -114,8 +86,7 @@ export default function Login() {
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
             <TabsContent value="login" className="space-y-4">
-              <Form method="post" className="space-y-4">
-                <input type="hidden" name="intent" value="login" />
+              <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -136,21 +107,16 @@ export default function Login() {
                     required
                   />
                 </div>
-                {actionData?.error && (
-                  <div className="text-red-600 text-sm">{actionData.error}</div>
+                {error && (
+                  <div className="text-red-600 text-sm">{error}</div>
                 )}
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? "Signing in..." : "Sign In"}
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Signing in..." : "Sign In"}
                 </Button>
-              </Form>
-              <div className="text-center text-sm text-slate-600">
-                <p>Demo credentials:</p>
-                <p>Email: sarah@clinic.com | Password: password</p>
-              </div>
+              </form>
             </TabsContent>
             <TabsContent value="signup" className="space-y-4">
-              <Form method="post" className="space-y-4">
-                <input type="hidden" name="intent" value="signup" />
+              <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signup-name">Full Name</Label>
                   <Input
@@ -179,15 +145,19 @@ export default function Login() {
                     type="password"
                     placeholder="Create a password"
                     required
+                    minLength={6}
                   />
                 </div>
-                {actionData?.error && (
-                  <div className="text-red-600 text-sm">{actionData.error}</div>
+                {error && (
+                  <div className="text-red-600 text-sm">{error}</div>
                 )}
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? "Creating account..." : "Sign Up"}
+                {success && (
+                  <div className="text-green-600 text-sm">{success}</div>
+                )}
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Creating account..." : "Sign Up"}
                 </Button>
-              </Form>
+              </form>
             </TabsContent>
           </Tabs>
         </CardContent>

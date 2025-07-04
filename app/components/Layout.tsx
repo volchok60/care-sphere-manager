@@ -1,5 +1,5 @@
 
-import { Form, Outlet, Link } from "react-router";
+import { Link, Outlet } from "react-router";
 import { ReactNode, useState } from "react";
 import { Bell, Search, Menu, X, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "~/lib/utils";
+import { useAuth } from "~/contexts/AuthContext";
 
 interface LayoutProps {
   user: {
@@ -25,6 +26,11 @@ interface LayoutProps {
 
 export function Layout({ user, children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -140,12 +146,8 @@ export function Layout({ user, children }: LayoutProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem asChild>
-                      <Form method="post" action="/logout">
-                        <button type="submit" className="w-full text-left">
-                          Sign out
-                        </button>
-                      </Form>
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      Sign out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

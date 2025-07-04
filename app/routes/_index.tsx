@@ -1,33 +1,38 @@
 
-import type { LoaderFunctionArgs } from "react-router";
-import { redirect } from "react-router";
-import { useLoaderData } from "react-router";
-import { getSession } from "~/utils/session.server";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "~/contexts/AuthContext";
 import { Layout } from "~/components/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
-  
-  const user = {
-    id: session.get("userId"),
-    name: session.get("userName"),
-    email: session.get("userEmail"),
-    role: session.get("userRole"),
-  };
-  
-  return { user };
-}
-
 export default function Dashboard() {
-  const { user } = useLoaderData<typeof loader>();
-  
-  console.log("Dashboard rendering with user:", user);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [user, loading, navigate]);
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if no user (will redirect)
+  if (!user) {
+    return null;
+  }
 
   const stats = [
     {
@@ -59,11 +64,16 @@ export default function Dashboard() {
   console.log("Stats data:", stats);
 
   return (
-    <Layout user={user}>
+    <Layout user={{ 
+      id: user.id, 
+      name: user.user_metadata?.display_name || user.email || 'User',
+      email: user.email || '',
+      role: 'user' // Default role, can be enhanced with profiles table
+    }}>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {user.name}</p>
+          <p className="text-gray-600">Welcome back, {user.user_metadata?.display_name || user.email}</p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -1,18 +1,11 @@
 
-import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
-import { destroySession, getSession } from "~/utils/session.server";
 
-export async function action({ request }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  
-  return redirect("/login", {
-    headers: {
-      "Set-Cookie": await destroySession(session),
-    },
-  });
+export async function action() {
+  // Redirect to login page since logout is handled on the client side with Supabase
+  return redirect("/login");
 }
 
 export async function loader() {
-  return redirect("/");
+  return redirect("/login");
 }

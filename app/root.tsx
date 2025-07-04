@@ -2,6 +2,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import type { LinksFunction } from "react-router";
 import stylesheet from "./tailwind.css?url";
 import { Toaster } from "~/components/ui/toaster";
+import { AuthProvider } from "~/contexts/AuthContext";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -17,8 +18,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
-        <Toaster />
+        <AuthProvider>
+          <Outlet />
+          <Toaster />
+        </AuthProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
