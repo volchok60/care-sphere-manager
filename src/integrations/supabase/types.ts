@@ -9,18 +9,24 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      instruments: {
+      items: {
         Row: {
+          created_at: string
+          description: string | null
           id: number
-          name: string
+          name: string | null
         }
         Insert: {
-          id?: never
-          name: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
         }
         Update: {
-          id?: never
-          name?: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
         }
         Relationships: []
       }
