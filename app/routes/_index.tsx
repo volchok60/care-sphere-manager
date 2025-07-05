@@ -5,6 +5,7 @@ import { useAuth } from "~/contexts/AuthContext";
 import { Layout } from "~/components/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
+import dashboardHero from "~/assets/dashboard-hero.jpg";
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
@@ -71,9 +72,17 @@ export default function Dashboard() {
       role: 'user' // Default role, can be enhanced with profiles table
     }}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {user.user_metadata?.display_name || user.email}</p>
+        {/* Hero Banner */}
+        <div className="relative h-48 rounded-lg overflow-hidden bg-gradient-to-r from-blue-600 to-blue-800">
+          <img 
+            src={dashboardHero} 
+            alt="Healthcare Dashboard" 
+            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30"
+          />
+          <div className="relative z-10 p-8 flex flex-col justify-center h-full">
+            <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
+            <p className="text-blue-100">Welcome back, {user.user_metadata?.display_name || user.email}</p>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
