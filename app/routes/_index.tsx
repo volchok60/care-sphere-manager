@@ -5,7 +5,7 @@ import { useAuth } from "~/contexts/AuthContext";
 import { Layout } from "~/components/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
-import dashboardHero from "~/assets/dashboard-hero.jpg";
+import dashboardHero from "@/assets/dashboard-hero.jpg";
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
