@@ -39,6 +39,10 @@ export function Layout({ user, children }: LayoutProps) {
     { name: 'Documents', href: '/documents', icon: FileText },
     { name: 'Messages', href: '/messages', icon: MessageSquare },
     ...(user?.role === 'admin' ? [{ name: 'Settings', href: '/settings', icon: Settings }] : []),
+    ...(user?.role === 'doctor' ? [
+      { name: 'My Schedule', href: '/schedule', icon: Calendar },
+      { name: 'Patient Records', href: '/records', icon: FileText }
+    ] : []),
   ];
 
   return (

@@ -8,7 +8,7 @@ import { Users, Calendar, FileText, MessageSquare } from "lucide-react";
 import dashboardHero from "@/assets/dashboard-hero.jpg";
 
 export default function Dashboard() {
-  const { user, loading } = useAuth();
+  const { user, userProfile, loading } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to login if not authenticated
@@ -67,9 +67,9 @@ export default function Dashboard() {
   return (
     <Layout user={{ 
       id: user.id, 
-      name: user.user_metadata?.display_name || user.email || 'User',
+      name: userProfile?.display_name || user.user_metadata?.display_name || user.email || 'User',
       email: user.email || '',
-      role: 'user' // Default role, can be enhanced with profiles table
+      role: userProfile?.role || 'user'
     }}>
       <div className="space-y-6">
         {/* Hero Banner */}
