@@ -294,7 +294,7 @@ export function BookAppointmentDialog({ onAppointmentBooked }: BookAppointmentDi
                 control={form.control}
                 name="appointmentTime"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>Time</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
