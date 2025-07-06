@@ -99,7 +99,7 @@ export function BookAppointmentDialog({ onAppointmentBooked }: BookAppointmentDi
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      patientName: '',
+      patientName: user?.user_metadata?.display_name || '',
       patientEmail: user?.email || '',
       patientPhone: '',
       doctorName: '',
