@@ -93,6 +93,7 @@ interface BookAppointmentDialogProps {
 export function BookAppointmentDialog({ onAppointmentBooked }: BookAppointmentDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -255,7 +256,7 @@ export function BookAppointmentDialog({ onAppointmentBooked }: BookAppointmentDi
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Appointment Date</FormLabel>
-                    <Popover>
+                    <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -278,7 +279,10 @@ export function BookAppointmentDialog({ onAppointmentBooked }: BookAppointmentDi
                         <CalendarComponent
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setDatePickerOpen(false);
+                          }}
                           disabled={(date) => date < new Date()}
                           initialFocus
                           className="p-3 pointer-events-auto"
