@@ -60,27 +60,6 @@ export type Database = {
         }
         Relationships: []
       }
-      items: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: number
-          name: string | null
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
